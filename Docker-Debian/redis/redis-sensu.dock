@@ -1,0 +1,14 @@
+# ==========================================================================
+# Dockerfile for sensu debian redis node 
+#
+# Autor: Cepxio
+# Image: Debian
+# Package to install: redis-server
+# ==========================================================================
+
+FROM debian:latest
+ENV http_proxy 'http://x.x.x.x:8080'
+ENV https_proxy 'https://x.x.x.x:8080'
+RUN apt-get -y update && apt-get -y install redis-server vim mlocate
+COPY templates/redis.conf /etc/redis/redis.conf
+

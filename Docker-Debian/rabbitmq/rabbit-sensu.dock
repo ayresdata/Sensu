@@ -1,0 +1,27 @@
+# ==========================================================================
+# Dockerfile for sensu debian rabbit node 
+#
+# Autor: Cepxio
+# Image: Debian
+# Package to install: rabbitmq-server erlang-solutions vim socat erlang-nox
+# ==========================================================================
+
+FROM debian:latest
+
+# If you have a proxy
+ENV http_proxy 'http://x.x.x.x:8080'
+ENV https_proxy 'https://x.x.x.x:8080'
+
+# Update repo & Install basic tools
+RUN apt-get -y update && apt-get -y install vim wget logrotate 
+
+# Install Earlang Runtime and dependencies
+RUN wget http://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+RUN dpkg -i erlang-solutions_1.0_all.deb
+RUN apt-get -y install socat erlang-nox 
+
+# Download and install RabbitMQ (Rabbit apt repo is unstable and debian repo has older version)
+RUN wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.3/rabbitmq-server_3.6.3-1_all.deb
+RUN dpkg -i rabbitmq-server_3.6.3-1_all.deb
+
+

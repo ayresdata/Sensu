@@ -1,0 +1,25 @@
+# ==========================================================================
+# Dockerfile for sensu 
+#
+# Autor: Cepxio
+# Image: Debian
+# Package to install: vim logrotate apt-transport-https apt-utils sensu
+# ==========================================================================
+
+# Set image to use
+FROM debian:latest
+
+# Add enviroments variables
+ENV http_proxy 'http://username:password@x.x.x.x:8080'
+ENV https_proxy 'https://username:password@x.x.x.x:8080'
+
+# Update repos & Install basic tools (mudar este paso a la imagen base)
+RUN apt-get -y update && apt-get -y install vim wget logrotate apt-transport-https apt-utils
+
+# Install Sensu Repositorie 
+RUN wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | apt-key add -
+RUN echo "deb https://sensu.global.ssl.fastly.net/apt jessie main" | tee /etc/apt/sources.list.d/sensu.list
+
+# Install Sensu Server
+RUN apt-get -y update && apt-get -y install sensu
+
